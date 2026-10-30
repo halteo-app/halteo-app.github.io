@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E-mail confirmado · Halteo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+<style>
+  :root { color-scheme: dark; --bg: #0a0a0a; --card: #141414; --line: #2a2a2a; --text: #f4f4f5; --muted: #a1a1aa; --brand: #e60000; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 "Inter", system-ui, sans-serif; }
+  main { max-width: 520px; margin: 0 auto; padding: 64px 20px 80px; }
+  a { color: var(--brand); }
+  .mark { width: 64px; height: 64px; border-radius: 16px; background: var(--brand); display: grid; place-items: center; margin-bottom: 24px; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: 30px; line-height: 1.15; margin: 8px 0 12px; letter-spacing: -.02em; }
+  p { color: #d4d4d8; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin: 20px 0; }
+  .small { font-size: 14px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <!-- Destino do link de confirmação de cadastro (Site URL do Supabase) -->
+  <div class="mark" aria-hidden="true">
+    <svg width="34" height="38" viewBox="318 292 388 440"><polygon points="380,556 640,486 640,554 380,624" fill="#0a0a0a"/><rect x="318" y="432" width="84" height="300" rx="22" fill="#fff"/><rect x="622" y="292" width="84" height="440" rx="22" fill="#fff"/></svg>
+  </div>
+  <div class="eyebrow">Halteo</div>
+  <h1>E-mail confirmado</h1>
+  <p>Sua conta está ativa. Volte para o app Halteo e entre com o seu e-mail e a senha que você criou.</p>
+  <div class="box">Se você abriu este link no computador, tudo bem: a confirmação já valeu. É só entrar pelo app no celular.</div>
+  <p class="small">Se o link pedir para você tentar de novo, ele pode ter expirado. Nesse caso, entre no app com o seu e-mail e senha
+  para receber um novo. Dúvidas: <strong>contato.halteo@gmail.com</strong></p>
+</main>
+</body>
+</html>
