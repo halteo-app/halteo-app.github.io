@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assinatura de coach · Halteo</title>
+<meta name="description" content="Assine o plano de coach do Halteo: Starter ou Pro.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+<style>
+  :root { color-scheme: dark; --bg: #0a0a0a; --card: #141414; --line: #2a2a2a; --text: #f4f4f5; --muted: #a1a1aa; --brand: #e60000; --ok: #22c55e; --warn: #f59e0b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 "Inter", system-ui, sans-serif; }
+  main { max-width: 920px; margin: 0 auto; padding: 32px 16px 80px; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin-bottom: 28px; }
+  a { color: var(--brand); }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  h1 { font-size: 32px; line-height: 1.15; margin: 8px 0 8px; letter-spacing: -.02em; }
+  h2 { font-size: 18px; margin: 0 0 4px; }
+  p { color: #d4d4d8; margin: 0 0 12px; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin: 18px 0; }
+  .notice { border-color: var(--brand); }
+  .notice.ok { border-color: var(--ok); }
+  .notice.warn { border-color: var(--warn); }
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 18px 0; }
+  .plan { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .plan.current { border-color: var(--brand); }
+  .price { font-size: 30px; font-weight: 800; letter-spacing: -.02em; }
+  .price small { font-size: 14px; font-weight: 600; color: var(--muted); }
+  .plan ul { margin: 4px 0 8px; padding-left: 18px; color: #d4d4d8; font-size: 14px; }
+  .tag { align-self: flex-start; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); border: 1px solid var(--brand); border-radius: 999px; padding: 2px 8px; }
+  button, .btn { font: inherit; font-weight: 800; font-size: 15px; border-radius: 12px; padding: 12px 16px; cursor: pointer; border: 1px solid var(--line); background: #1f1f1f; color: var(--text); text-align: center; }
+  button.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  button:disabled { opacity: .55; cursor: default; }
+  .plan button { margin-top: auto; width: 100%; }
+  form { display: grid; gap: 10px; max-width: 380px; }
+  label { font-size: 13px; font-weight: 600; color: var(--muted); }
+  input { font: inherit; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: #0f0f0f; color: var(--text); width: 100%; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .hidden { display: none !important; }
+  .error { color: #f87171; font-size: 14px; min-height: 1.2em; }
+  .status-title { font-size: 18px; font-weight: 800; }
+  .fine { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="/">Início</a><a href="termos.html">Termos de Uso</a><a href="privacidade.html">Privacidade</a></nav>
+  <div class="eyebrow">Halteo para coaches</div>
+  <h1>Assinatura de coach</h1>
+  <p>Atletas usam o Halteo de graça. Para acompanhar alunos, o coach escolhe um plano. Entre com a <strong>mesma conta do app</strong>.</p>
+
+  <div id="launch" class="box notice warn hidden">
+    <strong>Lançamento:</strong> por enquanto os recursos de coach estão liberados de graça para todo mundo. Você só
+    precisa assinar quando a cobrança começar. Avisaremos com antecedência.
+  </div>
+  <div id="flash" class="box notice hidden"></div>
+
+  <!-- entrar -->
+  <section id="login" class="box hidden">
+    <h2>Entrar</h2>
+    <p class="muted">Use o e-mail e a senha que você usa no app. Esqueceu a senha? No app, toque em "Esqueci minha senha".</p>
+    <form id="login-form">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="email" required>
+      <label for="password">Senha</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button class="primary" type="submit">Entrar</button>
+      <div class="error" id="login-error" role="alert"></div>
+    </form>
+  </section>
+
+  <!-- conta -->
+  <section id="account" class="box hidden">
+    <div class="row" style="justify-content: space-between">
+      <div>
+        <div class="status-title" id="status-title">Carregando…</div>
+        <div class="muted" id="status-detail"></div>
+      </div>
+      <div class="row">
+        <button id="portal" class="hidden" type="button">Pagamento, faturas e cancelamento</button>
+        <button id="logout" type="button">Sair</button>
+      </div>
+    </div>
+    <div class="error" id="account-error" role="alert"></div>
+  </section>
+
+  <div class="plans" id="plans">
+    <article class="plan" data-plan="starter_month">
+      <span class="tag hidden" data-current>Seu plano</span>
+      <h2>Starter</h2>
+      <div class="price">R$ 29,90 <small>/mês</small></div>
+      <ul><li>Até 5 alunos</li><li>Fichas, feedback, anamnese e mensalidades</li><li>Assistente de IA</li></ul>
+      <button type="button" data-buy>Assinar Starter</button>
+    </article>
+    <article class="plan" data-plan="pro_month">
+      <span class="tag hidden" data-current>Seu plano</span>
+      <h2>Pro mensal</h2>
+      <div class="price">R$ 79,90 <small>/mês</small></div>
+      <ul><li>Alunos ilimitados</li><li>+ R$ 1,49 por aluno ativo por mês</li><li>Ex.: 20 alunos = R$ 109,70/mês</li></ul>
+      <button type="button" data-buy class="primary">Assinar Pro mensal</button>
+    </article>
+    <article class="plan" data-plan="pro_year">
+      <span class="tag hidden" data-current>Seu plano</span>
+      <h2>Pro anual</h2>
+      <div class="price">R$ 719,90 <small>/ano</small></div>
+      <ul><li>Tudo do Pro, 25% mais barato</li><li>+ R$ 17,88 por aluno ativo por ano (R$ 1,49/mês)</li></ul>
+      <button type="button" data-buy>Assinar Pro anual</button>
+    </article>
+  </div>
+
+  <p class="fine">
+    O pagamento é processado pelo Stripe: o Halteo não vê nem guarda o número do seu cartão. No Pro, a quantidade de
+    alunos é atualizada sozinha e a diferença entra proporcionalmente na próxima fatura. Você cancela quando quiser em
+    "Pagamento, faturas e cancelamento"; o acesso vai até o fim do período pago. Arrependeu-se da primeira assinatura?
+    Em até 7 dias devolvemos o valor (Código de Defesa do Consumidor, art. 49): escreva para contato.halteo@gmail.com.
+    Veja os <a href="termos.html">Termos de Uso</a>.
+  </p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(() => {
+  const SUPABASE_URL = "https://lcmclhwbnwisqlviknhq.supabase.co";
+  // chave pública (a mesma do app); o que cada um pode ver é controlado no banco
+  const SUPABASE_KEY = "sb_publishable_2fpwxVKrbAHtqHS4DxMsuw_YOGhgdPX";
+  const FUNCTIONS = SUPABASE_URL + "/functions/v1";
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { storageKey: "halteo-site-auth" } });
+
+  const $ = (id) => document.getElementById(id);
+  const show = (el, on) => el.classList.toggle("hidden", !on);
+  const LIVE = ["active", "trialing", "past_due"];
+  const NAMES = { starter: "Starter", pro: "Pro" };
+  const dateBr = (iso) => (iso ? new Date(iso).toLocaleDateString("pt-BR") : "");
+  let session = null;
+  let plan = null;
+  let busy = false;
+
+  function flash(text, kind) {
+    const el = $("flash");
+    el.textContent = text;
+    el.className = "box notice " + (kind || "");
+    show(el, !!text);
+  }
+
+  async function callFunction(name, body) {
+    const res = await fetch(FUNCTIONS + "/" + name, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + session.access_token, apikey: SUPABASE_KEY },
+      body: JSON.stringify(body || {}),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || "Não foi possível concluir agora. Tente de novo.");
+    return data;
+  }
+
+  async function loadPlan() {
+    const { data, error } = await client.rpc("my_plan");
+    if (error) throw new Error(error.message);
+    plan = data;
+    return plan;
+  }
+
+  function render() {
+    show($("login"), !session);
+    show($("account"), !!session);
+    show($("launch"), !!plan && !plan.enforced);
+    const live = plan && LIVE.includes(plan.status) && (plan.plan === "starter" || plan.plan === "pro");
+    const currentKey = live ? plan.plan + "_" + (plan.interval || "month") : null;
+
+    if (session && plan) {
+      let title, detail = plan.students + (plan.students === 1 ? " aluno ativo" : " alunos ativos");
+      if (live) {
+        title = NAMES[plan.plan] + (plan.interval === "year" ? " anual" : " mensal");
+        if (plan.status === "past_due") detail += " · pagamento pendente: atualize o cartão";
+        else if (plan.cancel_at_period_end) detail += " · cancelado, vale até " + dateBr(plan.current_period_end);
+        else if (plan.current_period_end) detail += " · renova em " + dateBr(plan.current_period_end);
+      } else if (plan.plan === "trial") {
+        title = "Teste grátis até " + dateBr(plan.trial_ends_at);
+      } else if (plan.plan === "launch") {
+        title = "Coach grátis no lançamento";
+      } else {
+        title = "Sem plano de coach ativo";
+      }
+      $("status-title").textContent = title;
+      $("status-detail").textContent = (session.user.email || "") + " · " + detail;
+      show($("portal"), !!plan.has_billing_account);
+    }
+
+    document.querySelectorAll(".plan").forEach((card) => {
+      const key = card.dataset.plan;
+      const isCurrent = key === currentKey && !(plan && plan.cancel_at_period_end);
+      card.classList.toggle("current", isCurrent);
+      show(card.querySelector("[data-current]"), isCurrent);
+      const btn = card.querySelector("[data-buy]");
+      btn.disabled = busy || isCurrent;
+      const label = card.querySelector("h2").textContent;
+      btn.textContent = !session ? "Entre para assinar" : isCurrent ? "Plano atual" : live ? "Mudar para " + label : "Assinar " + label;
+    });
+  }
+
+  async function refresh() {
+    const { data } = await client.auth.getSession();
+    session = data.session;
+    plan = null;
+    if (session) {
+      try { await loadPlan(); } catch (err) { $("account-error").textContent = err.message; }
+    }
+    render();
+  }
+
+  $("login-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    $("login-error").textContent = "";
+    const { error } = await client.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value });
+    if (error) {
+      $("login-error").textContent = error.message.includes("Email not confirmed")
+        ? "Confirme seu e-mail primeiro (veja a caixa de entrada)."
+        : "E-mail ou senha incorretos.";
+      return;
+    }
+    await refresh();
+  });
+
+  $("logout").addEventListener("click", async () => {
+    await client.auth.signOut();
+    flash("");
+    await refresh();
+  });
+
+  $("portal").addEventListener("click", async () => {
+    $("account-error").textContent = "";
+    try {
+      const { url } = await callFunction("billing-portal");
+      window.location.href = url;
+    } catch (err) {
+      $("account-error").textContent = err.message;
+    }
+  });
+
+  document.querySelectorAll("[data-buy]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      if (!session) {
+        $("email").focus();
+        return;
+      }
+      const key = btn.closest(".plan").dataset.plan;
+      $("account-error").textContent = "";
+      busy = true;
+      render();
+      try {
+        const result = await callFunction("billing-checkout", { plan: key });
+        if (result.url) {
+          window.location.href = result.url;
+          return;
+        }
+        flash(result.switched ? "Plano alterado. A diferença entra proporcionalmente na próxima fatura." : "Esse já é o seu plano.", "ok");
+        await loadPlan();
+      } catch (err) {
+        $("account-error").textContent = err.message;
+      }
+      busy = false;
+      render();
+    });
+  });
+
+  // volta do pagamento: espera o aviso do Stripe chegar (alguns segundos)
+  async function afterCheckout() {
+    const status = new URLSearchParams(location.search).get("status");
+    if (!status) return;
+    history.replaceState(null, "", location.pathname);
+    if (status === "cancelado") {
+      flash("Pagamento não concluído. Nada foi cobrado.", "warn");
+      return;
+    }
+    flash("Pagamento recebido! Ativando seu plano…", "ok");
+    for (let i = 0; i < 10 && session; i++) {
+      await new Promise((r) => setTimeout(r, 2000));
+      try {
+        await loadPlan();
+        if (LIVE.includes(plan.status)) {
+          flash("Plano ativo! No app, ele já aparece em Configurações.", "ok");
+          render();
+          return;
+        }
+      } catch (_) { /* tenta de novo */ }
+    }
+    flash("Pagamento recebido. A ativação pode levar alguns minutos; atualize esta página depois.", "ok");
+  }
+
+  client.auth.onAuthStateChange((_event, s) => { session = s; });
+  refresh().then(afterCheckout);
+})();
+</script>
+</body>
+</html>
